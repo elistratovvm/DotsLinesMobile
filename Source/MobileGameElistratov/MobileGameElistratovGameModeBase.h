@@ -14,4 +14,6 @@ class MOBILEGAMEELISTRATOV_API AMobileGameElistratovGameModeBase : public AGameM
 {
 	GENERATED_BODY()
 	
+public:
+	AMobileGameElistratovGameModeBase();
 };
