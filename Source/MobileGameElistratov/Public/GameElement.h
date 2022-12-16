@@ -18,20 +18,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	bool bIsTouched;
 	
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	float SpawnTime = 0.f;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	float LifeTime = 5.f;*/
+	float LifeTime = 5.f;
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 	virtual void Destroyed() override;
 	
-	void TouchResponse();
+	virtual void TouchResponse() {};
 };

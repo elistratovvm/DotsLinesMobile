@@ -75,3 +75,6 @@ DerivedDataCache/*
 # ThirdParty plugins data
 !Plugins/*/Source/*/ThirdParty/*/*
 *.cpd
+
+#Rider plugin
+Plugins/Developer/RiderLink

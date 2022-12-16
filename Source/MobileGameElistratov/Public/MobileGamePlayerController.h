@@ -21,6 +21,8 @@ public:
 	float ShortPressThreshold;
 	
 protected:
+	virtual void BeginPlay() override;
+	
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
 

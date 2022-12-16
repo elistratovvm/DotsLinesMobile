@@ -4,21 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameElement.h"
-#include "GameSphere.generated.h"
+#include "GameDot.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOBILEGAMEELISTRATOV_API AGameSphere : public AGameElement
+class MOBILEGAMEELISTRATOV_API AGameDot : public AGameElement
 {
 	GENERATED_BODY()
-	
 public:
-	AGameSphere();
+	AGameDot();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* SphereMesh;
-	
-	virtual void TouchResponse() override;
 };

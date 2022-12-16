@@ -14,13 +14,7 @@ AGameElement::AGameElement()
 void AGameElement::BeginPlay()
 {
 	Super::BeginPlay();
-	SetLifeSpan(5.f);
-}
-
-// Called every frame
-void AGameElement::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	SetLifeSpan(LifeTime);
 }
 
 void AGameElement::Destroyed()
@@ -34,10 +28,4 @@ void AGameElement::Destroyed()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Dead from time!"));
 	}
 	Super::Destroyed();
-}
-
-void AGameElement::TouchResponse()
-{
-	bIsTouched = true;
-	Destroy();
 }
