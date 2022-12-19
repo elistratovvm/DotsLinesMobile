@@ -42,7 +42,7 @@ protected:
 private:
 	void SpawnSpline(FVector FirstLocation, FVector SecondLocation, float LifeTime) const;
 	void SpawnSphere(FVector SpawnLocation, float LifeTime) const;
-	void SpawnLine(FGameTableDots* GameElement, float SizeNum) const;
+	void SpawnLine(/*maybe const*/ FGameTableDots* GameElement, float SizeNum) const;
 };
 
 UENUM(BlueprintType)

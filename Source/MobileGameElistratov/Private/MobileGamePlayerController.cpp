@@ -56,6 +56,7 @@ void AMobileGamePlayerController::OnSetDestinationPressed()
 
 	//Debug method, delete after development will be completed
 	//------------------------------------------------------------------------------------------------------------------
+	//TODO:: think about #if WITH_EDITOR or other macroses for remove code in release
 	if (Hit.GetActor())
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
