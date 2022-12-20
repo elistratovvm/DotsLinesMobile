@@ -13,5 +13,15 @@ UCLASS()
 class MOBILEGAMEELISTRATOV_API AGameDotStart : public AGameDot
 {
 	GENERATED_BODY()
+
+public:
+	AGameDotStart();
 	
+	UFUNCTION()
+	void InputTouchBeginResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	UFUNCTION()
+	void InputTouchEndResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	
+	virtual void EnterResponse() override;
+	virtual void LeaveResponse(UPrimitiveComponent* TouchedComponent) override;
 };

@@ -18,4 +18,15 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* SphereMesh;
+
+	UPROPERTY()
+	class AGameLine* LineManager;
+	
+	UFUNCTION()
+	void InputTouchEnterResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	UFUNCTION()
+	void InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	
+	virtual void EnterResponse();
+	virtual void LeaveResponse(UPrimitiveComponent* TouchedComponent);
 };

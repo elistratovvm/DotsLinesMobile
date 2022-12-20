@@ -2,6 +2,8 @@
 
 #include "../Public/MobileGamePlayerController.h"
 #include "GameElement.h"
+#include "Camera/CameraActor.h"
+#include "Camera/CameraComponent.h"
 
 AMobileGamePlayerController::AMobileGamePlayerController()
 {
@@ -16,6 +18,21 @@ AMobileGamePlayerController::AMobileGamePlayerController()
 void AMobileGamePlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	MainCamera = GetWorld()->SpawnActor<ACameraActor>();
+	
+	if (!MainCamera)
+	{
+		return;
+	}
+	
+	MainCamera->SetActorRotation(FRotator(-90.f, 0.f, 0.f));
+	MainCamera->SetActorLocation(FVector(0.f, 0.f, 500.f));
+	SetViewTarget(MainCamera);
+		
+	UCameraComponent* MainCameraComponent = MainCamera->GetCameraComponent();
+	MainCameraComponent->ProjectionMode = ECameraProjectionMode::Orthographic;
+	MainCameraComponent->OrthoWidth = 1536.f;
 }
 
 void AMobileGamePlayerController::SetupInputComponent()
@@ -50,31 +67,6 @@ void AMobileGamePlayerController::OnSetDestinationPressed()
 {
 	// We flag that the input is being pressed
 	bInputPressed = true;
-
-	FHitResult Hit;
-	GetHitResultUnderCursor(ECC_Visibility, true, Hit);
-
-	//Debug method, delete after development will be completed
-	//------------------------------------------------------------------------------------------------------------------
-	if (Hit.GetActor())
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
-		FString::Printf(TEXT("Actor: %s"), *Hit.GetActor()->GetName()));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			5.f,
-			FColor::Green,
-			TEXT("No Actors in hit"));
-	}
-	//------------------------------------------------------------------------------------------------------------------
-	
-	if (AGameElement* GameElement = Cast<AGameElement>(Hit.GetActor()))
-	{
-		GameElement->TouchResponse();
-	}
 }
 
 void AMobileGamePlayerController::OnSetDestinationReleased()

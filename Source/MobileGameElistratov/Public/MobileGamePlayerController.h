@@ -20,6 +20,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float ShortPressThreshold;
 	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	ACameraActor* MainCamera;
+
 protected:
 	virtual void BeginPlay() override;
 	

@@ -15,14 +15,21 @@ class MOBILEGAMEELISTRATOV_API AGameSplineMesh : public AGameElement
 {
 	GENERATED_BODY()
 
-	
 public:
 	AGameSplineMesh();
+
+	float Length;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	class USplineMeshComponent* SplineMeshComponent;
 
-	float Length;
+	UPROPERTY()
+	class AGameLine* LineManager;
+	
+	UFUNCTION()
+	void InputTouchEnterResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	UFUNCTION()
+	void InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 	
 protected:
 	// Called when the game starts or when spawned

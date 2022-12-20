@@ -7,7 +7,10 @@
 #include "GameFramework/Actor.h"
 #include "GameSpawner.generated.h"
 
+class AGameLine;
+class AGameElement;
 struct FGameTableDots;
+
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AGameSpawner : public AActor
 {
@@ -24,25 +27,33 @@ public:
 	void ReadAndSpawn(const UDataTable* FGameTableDots);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<class AGameSphere> GameElementSphere;
+	TSubclassOf<class AGameSphere> Sphere_Class;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<class AGameDot> GameElementDot;
+	TSubclassOf<class AGameDot> Dot_Class;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<class AGameDotStart> GameElementDotStart;
+	TSubclassOf<class AGameDotStart> DotStart_Class;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<class AGameSplineMesh> GameElementSplineMesh;
+	TSubclassOf<class AGameSplineMesh> SplineMesh_Class;
+
+	UFUNCTION(BlueprintCallable)
+	TArray<AGameElement*> GetSpawnElements();
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
-	void SpawnSpline(FVector FirstLocation, FVector SecondLocation, float LifeTime) const;
-	void SpawnSphere(FVector SpawnLocation, float LifeTime) const;
-	void SpawnLine(FGameTableDots* GameElement, float SizeNum) const;
+	FTimerHandle SpawnTimer;
+	TArray<AGameElement*> GameElements;
+	
+	void SpawnSphere(FVector SpawnLocation, float LifeTime);
+	void SpawnLine(FGameTableDots* GameElement, float SizeNum);
+	void SpawnDotStart(AGameLine* Line, FVector Location, float LifeTime);
+	void SpawnDot(AGameLine* Line, FVector Location, float LifeTime);
+	void SpawnSpline(AGameLine* Line, FVector FirstLocation, FVector SecondLocation, float LifeTime);
 };
 
 UENUM(BlueprintType)

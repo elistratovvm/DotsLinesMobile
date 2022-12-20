@@ -19,6 +19,8 @@ void AGameElement::BeginPlay()
 
 void AGameElement::Destroyed()
 {
+	//Debug method, delete after development will be completed
+	//------------------------------------------------------------------------------------------------------------------
 	if (bIsTouched)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Dead from touch!"));
@@ -27,5 +29,6 @@ void AGameElement::Destroyed()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Dead from time!"));
 	}
+	//------------------------------------------------------------------------------------------------------------------
 	Super::Destroyed();
 }

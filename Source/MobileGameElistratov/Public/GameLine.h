@@ -6,7 +6,7 @@
 #include "GameElement.h"
 #include "GameLine.generated.h"
 
-/** Maybe this class will be removed
+/**
  * 
  */
 UCLASS()
@@ -14,10 +14,25 @@ class MOBILEGAMEELISTRATOV_API AGameLine : public AGameElement
 {
 	GENERATED_BODY()
 
+public:
+	TArray<class AGameDotStart*> DotsStart;
+	TArray<class AGameDot*> Dots;
+	TArray<class AGameSplineMesh*> Splines;
+	
+	void PrintText() const;
+	virtual void Destroyed() override;
+	void DotStartBeginTouch();
+	void DotStartEndTouch();
+	void EnterTouch();
+	void LeaveTouch(UPrimitiveComponent* TouchedComponent);
+	void DestroyLine();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
-public:
-	virtual void Destroyed() override;
+
+private:
+	bool bOnTheLine;
+	bool bIsLineStarted;
+	FTimerHandle DeathTimer;
 };
