@@ -59,7 +59,7 @@ void AGameSpawner::Tick(float DeltaTime)
 
 void AGameSpawner::ReadAndSpawn(const UDataTable* GameTableDots)
 {
-	TArray<FName> RowNames = GameTableDots->GetRowNames();
+	/*TArray<FName> RowNames = GameTableDots->GetRowNames();
 
 	for (const FName RowName : RowNames)
 	{
@@ -81,6 +81,26 @@ void AGameSpawner::ReadAndSpawn(const UDataTable* GameTableDots)
 			else
 			{
 				SpawnLine(GameElement, SizeNum);
+			}
+		}
+	}*/
+
+	TArray<FGameTableDots*> DotsData;
+	GameTableDots->GetAllRows(TEXT("Spawn dots"), DotsData);
+	
+	for (FGameTableDots* Data : DotsData)
+	{
+		switch (Data->GameElementType)
+		{
+		case EGameElementType::DOTLN:
+			{
+				SpawnSphere(Data->Locations[0], Data->LifeTime);
+				break;
+			}
+		case EGameElementType::SPHER:
+			{
+				SpawnLine(Data, Data->Locations.Num());
+				break;
 			}
 		}
 	}
