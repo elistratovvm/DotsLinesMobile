@@ -2,13 +2,13 @@
 
 
 #include "GameSpawner.h"
-
 #include "GameDot.h"
 #include "GameDotStart.h"
 #include "GameLine.h"
 #include "GameSphere.h"
 #include "GameSplineMesh.h"
 #include "Components/SplineMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
@@ -17,11 +17,6 @@ AGameSpawner::AGameSpawner()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-}
-
-TArray<AGameElement*> AGameSpawner::GetSpawnElements()
-{
-	return GameElements;
 }
 
 // Called when the game starts or when spawned
@@ -57,34 +52,13 @@ void AGameSpawner::Tick(float DeltaTime)
 	}
 }
 
+TArray<AGameElement*> AGameSpawner::GetSpawnElements()
+{
+	return GameElements;
+}
+
 void AGameSpawner::ReadAndSpawn(const UDataTable* GameTableDots)
 {
-	/*TArray<FName> RowNames = GameTableDots->GetRowNames();
-
-	for (const FName RowName : RowNames)
-	{
-		if (FGameTableDots* GameElement = GameTableDots->FindRow<FGameTableDots>(
-				RowName,
-				"Reading Level Row");
-			GameElement->GameElementType == SPHER)
-		{
-			SpawnSphere(GameElement->Locations[0], GameElement->LifeTime);
-		}
-		else
-		{
-			const int32 SizeNum = GameElement->Locations.Num();
-
-			if (SizeNum == 1)
-			{
-				SpawnSphere(GameElement->Locations[0], GameElement->LifeTime);
-			}
-			else
-			{
-				SpawnLine(GameElement, SizeNum);
-			}
-		}
-	}*/
-
 	TArray<FGameTableDots*> DotsData;
 	GameTableDots->GetAllRows(TEXT("Spawn dots"), DotsData);
 	
@@ -94,16 +68,30 @@ void AGameSpawner::ReadAndSpawn(const UDataTable* GameTableDots)
 		{
 		case EGameElementType::SPHER:
 			{
-				SpawnSphere(Data->Locations[0], Data->LifeTime);
+				CreateSpawnTimer(Data, FName("SpawnSphere"));
 				break;
 			}
 		case EGameElementType::DOTLN:
 			{
-				SpawnLine(Data, Data->Locations.Num());
+				CreateSpawnTimer(Data, FName("SpawnLine"));
 				break;
 			}
 		}
 	}
+}
+
+void AGameSpawner::CreateSpawnTimer(FGameTableDots* Data, FName FunctionName)
+{
+	FTimerHandle LocalSpawnTimer;
+	FTimerDelegate LocalTimerDel;
+
+	if (Data->SpawnTime < 0.0001f)
+	{
+		Data->SpawnTime = 0.0001f;
+	}
+	
+	LocalTimerDel.BindUFunction(this, FunctionName, Data->Locations, Data->LifeTime);
+	GetWorldTimerManager().SetTimer(LocalSpawnTimer, LocalTimerDel, Data->SpawnTime, false);
 }
 
 void AGameSpawner::SpawnSphere(FVector SpawnLocation, float LifeTime)
@@ -117,33 +105,35 @@ void AGameSpawner::SpawnSphere(FVector SpawnLocation, float LifeTime)
 	GameElements.Add(Sphere);
 }
 
-void AGameSpawner::SpawnLine(FGameTableDots* GameElement, float SizeNum)
+void AGameSpawner::SpawnLine(TArray<FVector> Locations, float LifeTime)
 {
+	const int32 SizeNum = Locations.Num();
+	
 	AGameLine* Line = GetWorld()->SpawnActor<AGameLine>();
-	Line->LifeTime = GameElement->LifeTime;
+	Line->LifeTime = LifeTime;
 
 	GameElements.Add(Line);
 	
-	SpawnDotStart(Line, GameElement->Locations[0], GameElement->LifeTime);
+	SpawnDotStart(Line, Locations[0], LifeTime);
 
 	SpawnSpline(
 		Line,
-		GameElement->Locations[0],
-		GameElement->Locations[1],
-		GameElement->LifeTime);
+		Locations[0],
+		Locations[1],
+		LifeTime);
 			
 	for (int32 i = 1; i < SizeNum - 1; i++)
 	{
-		SpawnDot(Line, GameElement->Locations[i], GameElement->LifeTime);
+		SpawnDot(Line, Locations[i], LifeTime);
 
 		SpawnSpline(
 			Line,
-			GameElement->Locations[i],
-			GameElement->Locations[i + 1],
-			GameElement->LifeTime);
+			Locations[i],
+			Locations[i + 1],
+			LifeTime);
 	}
 
-	SpawnDotStart(Line, GameElement->Locations[SizeNum - 1], GameElement->LifeTime);
+	SpawnDotStart(Line, Locations[SizeNum - 1], LifeTime);
 
 	//Debug method, delete after development will be completed
 	//------------------------------------------------------------------------------------------------------------------
@@ -200,4 +190,5 @@ void AGameSpawner::SpawnSpline(AGameLine* Line, FVector FirstLocation, FVector S
 	Line->Splines.Add(SplineMesh);
 	GameElements.Add(SplineMesh);
 }
+
 

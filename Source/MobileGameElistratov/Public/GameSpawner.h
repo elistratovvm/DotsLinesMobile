@@ -22,35 +22,33 @@ public:
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UFUNCTION(BlueprintCallable)
-	void ReadAndSpawn(const UDataTable* FGameTableDots);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<class AGameSphere> Sphere_Class;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<class AGameDot> Dot_Class;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<class AGameDotStart> DotStart_Class;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<class AGameSplineMesh> SplineMesh_Class;
-
+	
 	UFUNCTION(BlueprintCallable)
 	TArray<AGameElement*> GetSpawnElements();
+	UFUNCTION(BlueprintCallable)
+	void ReadAndSpawn(const UDataTable* FGameTableDots);
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
-	FTimerHandle SpawnTimer;
 	TArray<AGameElement*> GameElements;
-	
+
+	void CreateSpawnTimer(FGameTableDots* Data, FName FunctionName);
+	UFUNCTION()
 	void SpawnSphere(FVector SpawnLocation, float LifeTime);
-	void SpawnLine(FGameTableDots* GameElement, float SizeNum);
+	UFUNCTION()
+	void SpawnLine(TArray<FVector> Locations, float LifeTime);
 	void SpawnDotStart(AGameLine* Line, FVector Location, float LifeTime);
 	void SpawnDot(AGameLine* Line, FVector Location, float LifeTime);
 	void SpawnSpline(AGameLine* Line, FVector FirstLocation, FVector SecondLocation, float LifeTime);

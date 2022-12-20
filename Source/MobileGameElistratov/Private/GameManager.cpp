@@ -41,6 +41,8 @@ void AGameManager::SpawnLevel(const UDataTable* FGameTableDots) const
 
 void AGameManager::DeleteSpawnActors()
 {
+	GetWorldTimerManager().ClearAllTimersForObject(Spawner);
+	
 	TArray<AGameElement*> Elements = Spawner->GetSpawnElements();
 	for (AGameElement* Actor : Elements)
 	{
