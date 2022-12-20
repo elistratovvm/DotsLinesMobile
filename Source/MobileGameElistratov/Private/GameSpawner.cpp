@@ -92,12 +92,12 @@ void AGameSpawner::ReadAndSpawn(const UDataTable* GameTableDots)
 	{
 		switch (Data->GameElementType)
 		{
-		case EGameElementType::DOTLN:
+		case EGameElementType::SPHER:
 			{
 				SpawnSphere(Data->Locations[0], Data->LifeTime);
 				break;
 			}
-		case EGameElementType::SPHER:
+		case EGameElementType::DOTLN:
 			{
 				SpawnLine(Data, Data->Locations.Num());
 				break;
