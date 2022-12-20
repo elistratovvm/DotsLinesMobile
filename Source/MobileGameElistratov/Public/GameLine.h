@@ -23,6 +23,9 @@ public:
 	virtual void Destroyed() override;
 	void DotStartBeginTouch();
 	void DotStartEndTouch();
+	void DotEnterTouch();
+	void DotLeaveTouch(UPrimitiveComponent* TouchedComponent);
+	void SplineMeshLeaveTouch(UPrimitiveComponent* TouchedComponent);
 	void EnterTouch();
 	void LeaveTouch(UPrimitiveComponent* TouchedComponent);
 	void DestroyLine();
@@ -33,6 +36,7 @@ protected:
 
 private:
 	bool bOnTheLine;
+	bool bOnDot;
 	bool bIsLineStarted;
 	FTimerHandle DeathTimer;
 };

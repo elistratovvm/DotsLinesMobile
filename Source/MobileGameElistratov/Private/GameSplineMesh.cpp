@@ -31,6 +31,5 @@ void AGameSplineMesh::InputTouchEnterResponse(ETouchIndex::Type FingerIndex, UPr
 void AGameSplineMesh::InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Spline Touch Leave!"));
-	LineManager->LeaveTouch(TouchedComponent);
-	//SplineMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	LineManager->SplineMeshLeaveTouch(TouchedComponent);
 }

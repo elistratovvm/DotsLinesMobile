@@ -9,7 +9,7 @@
 void AGameLine::BeginPlay()
 {
 	Super::BeginPlay();
-	SetLifeSpan(LifeTime);
+	//SetLifeSpan(LifeTime);
 } 
 
 void AGameLine::PrintText() const
@@ -20,6 +20,7 @@ void AGameLine::PrintText() const
 
 void AGameLine::Destroyed()
 {
+	Super::Destroyed();
 	//Debug method, delete after development will be completed
 	//------------------------------------------------------------------------------------------------------------------
 	if (bIsTouched)
@@ -31,7 +32,6 @@ void AGameLine::Destroyed()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Line dead from time!"));
 	}
 	//------------------------------------------------------------------------------------------------------------------
-	Super::Destroyed();
 }
 
 void AGameLine::DotStartBeginTouch()
@@ -47,6 +47,24 @@ void AGameLine::DotStartEndTouch()
 		bOnTheLine = false;
 		DestroyLine();
 	}
+}
+
+void AGameLine::DotEnterTouch()
+{
+	bOnDot = true;
+	EnterTouch();
+}
+
+void AGameLine::DotLeaveTouch(UPrimitiveComponent* TouchedComponent)
+{
+	bOnDot = false;
+	LeaveTouch(TouchedComponent);
+}
+
+void AGameLine::SplineMeshLeaveTouch(UPrimitiveComponent* TouchedComponent)
+{
+	//if(bOnDot)
+	LeaveTouch(TouchedComponent);
 }
 
 void AGameLine::EnterTouch()

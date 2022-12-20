@@ -46,7 +46,7 @@ private:
 
 	void CreateSpawnTimer(FGameTableDots* Data, FName FunctionName);
 	UFUNCTION()
-	void SpawnSphere(FVector SpawnLocation, float LifeTime);
+	void SpawnSphere(FVector Location, float LifeTime);
 	UFUNCTION()
 	void SpawnLine(TArray<FVector> Locations, float LifeTime);
 	void SpawnDotStart(AGameLine* Line, FVector Location, float LifeTime);

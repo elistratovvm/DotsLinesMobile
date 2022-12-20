@@ -27,12 +27,12 @@ void AGameDot::InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitive
 void AGameDot::EnterResponse()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Dot Touch Enter!"));
-	LineManager->EnterTouch();
+	LineManager->DotEnterTouch();
 }
 
 void AGameDot::LeaveResponse(UPrimitiveComponent* TouchedComponent)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Dot Touch Leave!"));
-	LineManager->LeaveTouch(TouchedComponent);
+	LineManager->DotLeaveTouch(TouchedComponent);
 }
 

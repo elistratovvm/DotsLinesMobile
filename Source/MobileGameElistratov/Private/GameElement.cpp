@@ -14,7 +14,7 @@ AGameElement::AGameElement()
 void AGameElement::BeginPlay()
 {
 	Super::BeginPlay();
-	SetLifeSpan(LifeTime);
+	//SetLifeSpan(LifeTime);
 }
 
 void AGameElement::Destroyed()
@@ -31,4 +31,9 @@ void AGameElement::Destroyed()
 	}
 	//------------------------------------------------------------------------------------------------------------------
 	Super::Destroyed();
+}
+
+void AGameElement::PostSetLifeSpan(float LiveTime)
+{
+	SetLifeSpan(LiveTime);
 }

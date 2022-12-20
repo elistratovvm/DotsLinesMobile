@@ -13,13 +13,14 @@ UCLASS()
 class MOBILEGAMEELISTRATOV_API AGameSphere : public AGameElement
 {
 	GENERATED_BODY()
-	
 public:
 	AGameSphere();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* SphereMesh;
 
+	virtual void BeginPlay() override;
+	
 	UFUNCTION()
 	void InputTouchBeginResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 	UFUNCTION()

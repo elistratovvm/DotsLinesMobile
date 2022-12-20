@@ -94,13 +94,14 @@ void AGameSpawner::CreateSpawnTimer(FGameTableDots* Data, FName FunctionName)
 	GetWorldTimerManager().SetTimer(LocalSpawnTimer, LocalTimerDel, Data->SpawnTime, false);
 }
 
-void AGameSpawner::SpawnSphere(FVector SpawnLocation, float LifeTime)
+void AGameSpawner::SpawnSphere(FVector Location, float LifeTime)
 {
 	AGameSphere* Sphere = GetWorld()->SpawnActor<AGameSphere>(
 		Sphere_Class,
-		SpawnLocation,
+		Location,
 		FRotator());
-	Sphere->LifeTime = LifeTime;
+	
+	Sphere->PostSetLifeSpan(LifeTime);
 
 	GameElements.Add(Sphere);
 }
@@ -110,7 +111,7 @@ void AGameSpawner::SpawnLine(TArray<FVector> Locations, float LifeTime)
 	const int32 SizeNum = Locations.Num();
 	
 	AGameLine* Line = GetWorld()->SpawnActor<AGameLine>();
-	Line->LifeTime = LifeTime;
+	Line->PostSetLifeSpan(LifeTime);
 
 	GameElements.Add(Line);
 	
@@ -147,7 +148,8 @@ void AGameSpawner::SpawnDotStart(AGameLine* Line, FVector Location, float LifeTi
 		DotStart_Class,
 		Location,
 		FRotator());
-	DotStart->LifeTime = LifeTime;
+	
+	DotStart->PostSetLifeSpan(LifeTime);
 	DotStart->LineManager = Line;
 	
 	Line->DotsStart.Add(DotStart);
@@ -160,7 +162,7 @@ void AGameSpawner::SpawnDot(AGameLine* Line, FVector Location, float LifeTime)
 			Dot_Class,
 			Location,
 			FRotator());
-	Dot->LifeTime = LifeTime;
+	Dot->PostSetLifeSpan(LifeTime);
 	Dot->LineManager = Line;
 	
 	Line->Dots.Add(Dot);
@@ -179,7 +181,7 @@ void AGameSpawner::SpawnSpline(AGameLine* Line, FVector FirstLocation, FVector S
 		SplineMesh_Class,
 		FirstLocation,
 		Rotation);
-	SplineMesh->LifeTime = LifeTime;
+	SplineMesh->PostSetLifeSpan(LifeTime);
 	SplineMesh->Length = EndPosX;
 	SplineMesh->SplineMeshComponent->SetEndPosition(FVector(EndPosX, 0, 0));
 	SplineMesh->SplineMeshComponent->SetForwardAxis(ESplineMeshAxis::Z);
