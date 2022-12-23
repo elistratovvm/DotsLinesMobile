@@ -20,13 +20,13 @@ public:
 
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<UUserWidget> MainMenu_Class;
+	TSubclassOf<UUserWidget> MainMenuWidgetClass;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<UUserWidget> GameOver_Class;
+	TSubclassOf<UUserWidget> GameOverWidgetClass;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<AGameSpawner> Spawner_Class;
+	TSubclassOf<AGameSpawner> SpawnerClass;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UUserWidget* GameWidget;

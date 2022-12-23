@@ -20,23 +20,23 @@ void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (!MainMenu_Class)
+	if (!MainMenuWidgetClass)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Could not find the Overlay class. Did you make assigment on Blueprint?"));
 		return;
 	}
-	if (!Spawner_Class)
+	if (!SpawnerClass)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Could not find the Spawner class. Did you make assigment on Blueprint?"));
 		return;
 	}
-	if (!GameOver_Class)
+	if (!GameOverWidgetClass)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Could not find the Game Over Widget class. Did you make assigment on Blueprint?"));
 		return;
 	}
-	CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), MainMenu_Class)->AddToViewport(0);
-	Spawner = GetWorld()->SpawnActor<AGameSpawner>(Spawner_Class);
+	CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), MainMenuWidgetClass)->AddToViewport(0);
+	Spawner = GetWorld()->SpawnActor<AGameSpawner>(SpawnerClass);
 
 	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
 	GameState->GameOver.AddDynamic(this, &AGameManager::GameOverDelegateFunction);
@@ -64,6 +64,6 @@ void AGameManager::DeleteSpawnActors()
 
 void AGameManager::GameOverDelegateFunction()
 {
-	CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), GameOver_Class)->AddToViewport(0);
+	CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), GameOverWidgetClass)->AddToViewport(0);
 	DeleteSpawnActors();
 }
