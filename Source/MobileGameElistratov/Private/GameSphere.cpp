@@ -3,6 +3,8 @@
 
 #include "GameSphere.h"
 
+#include "MobileGameStateBase.h"
+
 AGameSphere::AGameSphere()
 {
 	SphereMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Game Sphere"));
@@ -11,25 +13,44 @@ AGameSphere::AGameSphere()
 
 	SphereMesh->OnInputTouchBegin.AddDynamic(this, &AGameSphere::InputTouchBeginResponse);
 	SphereMesh->OnInputTouchEnd.AddDynamic(this, &AGameSphere::InputTouchEndResponse);
+	RootComponent = SphereMesh;
 }
 
-void AGameSphere::BeginPlay()
+void AGameSphere::Destroyed()
 {
-	Super::BeginPlay();
+	Super::Destroyed();
+	
+	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
+	
+	if (bIsTouchBegin && bIsTouchEnd)
+	{
+		GameState->AddCurrentScore(MaxScore * CurrentScore);
+	}
+	else
+	{
+		GameState->DecreaseHealthPoint();
+	}
 }
 
 void AGameSphere::InputTouchBeginResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Sphere Touch Begin!"));
-	bIsTouched = true;
+	bIsTouchBegin = true;
+	
+	FVector VectorLocation;
+	FVector VectorDirection;
+	const APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	PlayerController->DeprojectMousePositionToWorld(VectorLocation, VectorDirection);
+
+	CurrentScore = 1.f - sqrt(
+		(GetActorLocation().X - VectorLocation.X) * (GetActorLocation().X - VectorLocation.X)
+		+ (GetActorLocation().Y - VectorLocation.Y) * (GetActorLocation().Y - VectorLocation.Y)) / sqrt(2.f) / 100.f;
 }
 
 void AGameSphere::InputTouchEndResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("Sphere Touch End!"));
-	
-	if (bIsTouched)
+	if (bIsTouchBegin)
 	{
+		bIsTouchEnd = true;
 		Destroy();
 	}
 }

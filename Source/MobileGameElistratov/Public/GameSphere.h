@@ -16,13 +16,19 @@ class MOBILEGAMEELISTRATOV_API AGameSphere : public AGameElement
 public:
 	AGameSphere();
 
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* SphereMesh;
 
-	virtual void BeginPlay() override;
+	
+	virtual void Destroyed() override;
+
 	
 	UFUNCTION()
 	void InputTouchBeginResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 	UFUNCTION()
 	void InputTouchEndResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	
+private:
+	float CurrentScore;
 };

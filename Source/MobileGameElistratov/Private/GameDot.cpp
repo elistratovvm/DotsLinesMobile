@@ -3,6 +3,7 @@
 
 #include "GameDot.h"
 #include "GameLine.h"
+#include "MobileGameStateBase.h"
 
 AGameDot::AGameDot()
 {
@@ -12,6 +13,19 @@ AGameDot::AGameDot()
 	
 	SphereMesh->OnInputTouchEnter.AddDynamic(this, &AGameDot::InputTouchEnterResponse);
 	SphereMesh->OnInputTouchLeave.AddDynamic(this, &AGameDot::InputTouchLeaveResponse);
+	RootComponent = SphereMesh;
+}
+
+void AGameDot::Destroyed()
+{
+	Super::Destroyed();
+
+	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
+	
+	if (bIsTouchBegin && LineManager->bIsTouchBegin)
+	{
+		GameState->AddCurrentScore(MaxScore);
+	}
 }
 
 void AGameDot::InputTouchEnterResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
@@ -26,6 +40,7 @@ void AGameDot::InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitive
 
 void AGameDot::EnterResponse()
 {
+	bIsTouchBegin = true;
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Dot Touch Enter!"));
 	LineManager->DotEnterTouch();
 }
@@ -33,6 +48,8 @@ void AGameDot::EnterResponse()
 void AGameDot::LeaveResponse(UPrimitiveComponent* TouchedComponent)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Dot Touch Leave!"));
-	LineManager->DotLeaveTouch(TouchedComponent);
+	if (bIsTouchBegin && LineManager->bIsTouchBegin)
+	{
+		LineManager->DotLeaveTouch(TouchedComponent);
+	}
 }
-

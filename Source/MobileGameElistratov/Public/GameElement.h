@@ -10,20 +10,21 @@ UCLASS()
 class MOBILEGAMEELISTRATOV_API AGameElement : public AActor
 {
 	GENERATED_BODY()
-	
 public:	
-	// Sets default values for this actor's properties
 	AGameElement();
+
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	bool bIsTouched;
+	bool bIsTouchBegin;
 	
-	float LifeTime;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	bool bIsTouchEnd;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	float MaxScore;
 
-	virtual void Destroyed() override;
-	virtual void PostSetLifeSpan(float LiveTime);
 	
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	virtual void BeginDestroy() override;
+	virtual void Destroyed() override;
+	virtual void SetLifeTime(float LifeTime);
 };

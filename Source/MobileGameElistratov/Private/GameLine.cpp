@@ -5,39 +5,33 @@
 #include "GameDot.h"
 #include "GameDotStart.h"
 #include "GameSplineMesh.h"
+#include "MobileGameStateBase.h"
 
 void AGameLine::BeginPlay()
 {
 	Super::BeginPlay();
-	//SetLifeSpan(LifeTime);
-} 
-
-void AGameLine::PrintText() const
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
-		FString::Printf(TEXT("Elements Number: %i"), DotsStart.Num() + Dots.Num() + Splines.Num()));
 }
 
 void AGameLine::Destroyed()
 {
 	Super::Destroyed();
-	//Debug method, delete after development will be completed
-	//------------------------------------------------------------------------------------------------------------------
-	if (bIsTouched)
+	
+	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
+	
+	if (bIsTouchBegin)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Line being touched!"));
+		GameState->AddCurrentScore(MaxScore);
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Line dead from time!"));
+		GameState->DecreaseHealthPoint();
 	}
-	//------------------------------------------------------------------------------------------------------------------
 }
 
 void AGameLine::DotStartBeginTouch()
 {
 	bOnTheLine = true;
-	bIsLineStarted = true;
+	bIsTouchBegin = true;
 }
 
 void AGameLine::DotStartEndTouch()
@@ -48,6 +42,7 @@ void AGameLine::DotStartEndTouch()
 		DestroyLine();
 	}
 }
+
 
 void AGameLine::DotEnterTouch()
 {
@@ -63,7 +58,6 @@ void AGameLine::DotLeaveTouch(UPrimitiveComponent* TouchedComponent)
 
 void AGameLine::SplineMeshLeaveTouch(UPrimitiveComponent* TouchedComponent)
 {
-	//if(bOnDot)
 	LeaveTouch(TouchedComponent);
 }
 
@@ -75,7 +69,7 @@ void AGameLine::EnterTouch()
 void AGameLine::LeaveTouch(UPrimitiveComponent* TouchedComponent)
 {
 	bOnTheLine = false;
-	if(bIsLineStarted)
+	if(bIsTouchBegin)
 	{
 		TouchedComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
@@ -84,11 +78,7 @@ void AGameLine::LeaveTouch(UPrimitiveComponent* TouchedComponent)
 
 void AGameLine::DestroyLine()
 {
-	if(!bIsLineStarted)
-	{
-		return;
-	}
-	if (bOnTheLine)
+	if(!bIsTouchBegin || bOnTheLine)
 	{
 		return;
 	}
@@ -109,3 +99,11 @@ void AGameLine::DestroyLine()
 	GetWorldTimerManager().ClearTimer(DeathTimer);
 	Destroy();
 }
+
+#if WITH_EDITOR
+void AGameLine::PrintText() const
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
+		FString::Printf(TEXT("Elements Number: %i"), DotsStart.Num() + Dots.Num() + Splines.Num()));
+}
+#endif

@@ -16,12 +16,15 @@ class MOBILEGAMEELISTRATOV_API AGameDotStart : public AGameDot
 
 public:
 	AGameDotStart();
+
 	
 	UFUNCTION()
 	void InputTouchBeginResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	
 	UFUNCTION()
 	void InputTouchEndResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 	
+protected:
 	virtual void EnterResponse() override;
 	virtual void LeaveResponse(UPrimitiveComponent* TouchedComponent) override;
 };

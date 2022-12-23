@@ -5,6 +5,7 @@
 
 #include "GameElement.h"
 #include "GameSpawner.h"
+#include "MobileGameStateBase.h"
 #include "Blueprint/UserWidget.h"
 
 // Sets default values
@@ -19,7 +20,7 @@ void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (!Overlay_Class)
+	if (!MainMenu_Class)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Could not find the Overlay class. Did you make assigment on Blueprint?"));
 		return;
@@ -29,31 +30,40 @@ void AGameManager::BeginPlay()
 		UE_LOG(LogTemp, Error, TEXT("Could not find the Spawner class. Did you make assigment on Blueprint?"));
 		return;
 	}
-	Overlay = CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), Overlay_Class);
-	Overlay->AddToViewport(0);
+	if (!GameOver_Class)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Could not find the Game Over Widget class. Did you make assigment on Blueprint?"));
+		return;
+	}
+	CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), MainMenu_Class)->AddToViewport(0);
 	Spawner = GetWorld()->SpawnActor<AGameSpawner>(Spawner_Class);
+
+	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
+	GameState->GameOver.AddDynamic(this, &AGameManager::GameOverDelegateFunction);
 }
 
-void AGameManager::SpawnLevel(const UDataTable* FGameTableDots) const
+void AGameManager::RemoveFromSpawnArray(AGameElement* GameActor) const
 {
-	Spawner->ReadAndSpawn(FGameTableDots);
+	Spawner->RemoveOneElement(GameActor);
+}
+
+void AGameManager::SpawnLevel(const UDataTable* FGameTableDots)
+{
+	const float MaxTime = Spawner->SpawnAndGetLevelTime(FGameTableDots);
+	FTimerHandle LocalSpawnTimer;
+	GetWorldTimerManager().SetTimer(LocalSpawnTimer, this, &AGameManager::GameOverDelegateFunction, MaxTime + 0.000001f, false);
 }
 
 void AGameManager::DeleteSpawnActors()
 {
 	GetWorldTimerManager().ClearAllTimersForObject(Spawner);
+	GetWorldTimerManager().ClearAllTimersForObject(this);
 	
-	TArray<AGameElement*> Elements = Spawner->GetSpawnElements();
-	for (AGameElement* Actor : Elements)
-	{
-		Actor->Destroy();
-	}
+	Spawner->DestroyAllElements();
 }
 
-// Called every frame
-void AGameManager::Tick(float DeltaTime)
+void AGameManager::GameOverDelegateFunction()
 {
-	Super::Tick(DeltaTime);
-
+	CreateWidget<UUserWidget>(GetWorld()->GetFirstPlayerController(), GameOver_Class)->AddToViewport(0);
+	DeleteSpawnActors();
 }
-

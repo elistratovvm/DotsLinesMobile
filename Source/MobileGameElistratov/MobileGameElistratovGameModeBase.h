@@ -9,6 +9,8 @@
 /**
  * 
  */
+class AGameManager;
+ 
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AMobileGameElistratovGameModeBase : public AGameModeBase
 {
@@ -16,4 +18,14 @@ class MOBILEGAMEELISTRATOV_API AMobileGameElistratovGameModeBase : public AGameM
 	
 public:
 	AMobileGameElistratovGameModeBase();
+
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AGameManager> GameManager;
+	
+	UPROPERTY()
+	AGameManager* GameManager_BP;
+    
+protected:
+   	virtual void BeginPlay() override;
 };

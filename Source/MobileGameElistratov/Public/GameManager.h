@@ -8,6 +8,7 @@
 
 class UDataTable;
 class AGameSpawner;
+class AGameElement;
 
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AGameManager : public AActor
@@ -15,26 +16,35 @@ class MOBILEGAMEELISTRATOV_API AGameManager : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AGameManager();
 
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<UUserWidget> Overlay_Class;
+	TSubclassOf<UUserWidget> MainMenu_Class;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UUserWidget> GameOver_Class;
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AGameSpawner> Spawner_Class;
-	UPROPERTY()
-	UUserWidget* Overlay;
+	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UUserWidget* GameWidget;
 
+	
+	void RemoveFromSpawnArray(AGameElement* GameActor) const;
+
+	
 	UFUNCTION(BlueprintCallable)
-	void SpawnLevel(const UDataTable* FGameTableDots) const;
+	void SpawnLevel(const UDataTable* FGameTableDots);
+	
 	UFUNCTION(BlueprintCallable)
 	void DeleteSpawnActors();
 	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UFUNCTION()
+	void GameOverDelegateFunction();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:

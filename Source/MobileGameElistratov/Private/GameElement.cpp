@@ -2,38 +2,33 @@
 
 #include "GameElement.h"
 
-// Sets default values
+#include "GameManager.h"
+#include "MobileGameElistratov/MobileGameElistratovGameModeBase.h"
+
 AGameElement::AGameElement()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	bIsTouched = false;
+	bIsTouchBegin = false;
 }
 
-// Called when the game starts or when spawned
-void AGameElement::BeginPlay()
+void AGameElement::BeginDestroy()
 {
-	Super::BeginPlay();
-	//SetLifeSpan(LifeTime);
+	Super::BeginDestroy();
+	if (GetWorld())
+	{
+		AMobileGameElistratovGameModeBase* GameMod = Cast<AMobileGameElistratovGameModeBase>(GetWorld()->GetAuthGameMode());
+		AGameManager* GameManager = GameMod->GameManager_BP;
+		GameManager->RemoveFromSpawnArray(this);
+	}
 }
 
 void AGameElement::Destroyed()
 {
-	//Debug method, delete after development will be completed
-	//------------------------------------------------------------------------------------------------------------------
-	if (bIsTouched)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Dead from touch!"));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Dead from time!"));
-	}
-	//------------------------------------------------------------------------------------------------------------------
 	Super::Destroyed();
+	
 }
 
-void AGameElement::PostSetLifeSpan(float LiveTime)
+void AGameElement::SetLifeTime(float LifeTime)
 {
-	SetLifeSpan(LiveTime);
+	SetLifeSpan(LifeTime);
 }

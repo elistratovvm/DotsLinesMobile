@@ -15,6 +15,7 @@ AMobileGamePlayerController::AMobileGamePlayerController()
 	DefaultMouseCursor = EMouseCursor::Default;
 }
 
+//TODO:: Make existing camera MainCamera instead of spawn camera
 void AMobileGamePlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -60,7 +61,6 @@ void AMobileGamePlayerController::SetupInputComponent()
 		IE_Released,
 		this,
 		&AMobileGamePlayerController::OnTouchReleased);
-
 }
 
 void AMobileGamePlayerController::OnSetDestinationPressed()

@@ -16,17 +16,24 @@ class MOBILEGAMEELISTRATOV_API AGameDot : public AGameElement
 public:
 	AGameDot();
 
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* SphereMesh;
-
+	
 	UPROPERTY()
 	class AGameLine* LineManager;
+
+	
+	virtual void Destroyed() override;
+
 	
 	UFUNCTION()
 	void InputTouchEnterResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	
 	UFUNCTION()
 	void InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
-	
+
+protected:
 	virtual void EnterResponse();
 	virtual void LeaveResponse(UPrimitiveComponent* TouchedComponent);
 };
