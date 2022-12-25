@@ -21,10 +21,13 @@ void AGameDot::Destroyed()
 	Super::Destroyed();
 
 	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
-	
-	if (bIsTouchBegin && LineManager->bIsTouchBegin)
+
+	if(GameState)
 	{
-		GameState->AddCurrentScore(MaxScore);
+		if (bIsTouchBegin && LineManager->bIsTouchBegin)
+		{
+			GameState->AddCurrentScore(MaxScore);
+		}
 	}
 }
 
@@ -41,13 +44,11 @@ void AGameDot::InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitive
 void AGameDot::EnterResponse()
 {
 	bIsTouchBegin = true;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Dot Touch Enter!"));
 	LineManager->DotEnterTouch();
 }
 
 void AGameDot::LeaveResponse(UPrimitiveComponent* TouchedComponent)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Dot Touch Leave!"));
 	if (bIsTouchBegin && LineManager->bIsTouchBegin)
 	{
 		LineManager->DotLeaveTouch(TouchedComponent);

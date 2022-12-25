@@ -17,14 +17,19 @@ void AGameLine::Destroyed()
 	Super::Destroyed();
 	
 	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
+	if(GameState)
+	{
+		GameState->DecreaseQuantityElement();
 	
-	if (bIsTouchBegin)
-	{
-		GameState->AddCurrentScore(MaxScore);
-	}
-	else
-	{
-		GameState->DecreaseHealthPoint();
+		if (bIsTouchBegin)
+		{
+			GameState->AddCurrentScore(MaxScore);
+		
+		}
+		else
+		{
+			GameState->DecreaseHealthPoint();
+		}
 	}
 }
 
@@ -99,11 +104,3 @@ void AGameLine::DestroyLine()
 	GetWorldTimerManager().ClearTimer(DeathTimer);
 	Destroy();
 }
-
-#if WITH_EDITOR
-void AGameLine::PrintText() const
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
-		FString::Printf(TEXT("Elements Number: %i"), DotsStart.Num() + Dots.Num() + Splines.Num()));
-}
-#endif

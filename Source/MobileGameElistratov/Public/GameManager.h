@@ -20,16 +20,7 @@ public:
 
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<UUserWidget> MainMenuWidgetClass;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<UUserWidget> GameOverWidgetClass;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AGameSpawner> SpawnerClass;
-	
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	UUserWidget* GameWidget;
 
 	
 	void RemoveFromSpawnArray(AGameElement* GameActor) const;

@@ -34,10 +34,6 @@ public:
 	void LeaveTouch(UPrimitiveComponent* TouchedComponent);
 	void DestroyLine();
 
-#if WITH_EDITOR
-	void PrintText() const;
-#endif
-
 protected:
 	virtual void BeginPlay() override;
 

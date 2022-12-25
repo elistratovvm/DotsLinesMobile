@@ -13,14 +13,12 @@ AGameDotStart::AGameDotStart()
 
 void AGameDotStart::InputTouchBeginResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Dot Start Touch Begin!"));
 	bIsTouchBegin = true;
 	LineManager->DotStartBeginTouch();
 }
 
 void AGameDotStart::InputTouchEndResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("Dot Start Touch End!"));
 	if(!bIsTouchBegin)
 	{
 		LineManager->DotStartEndTouch();
@@ -29,12 +27,10 @@ void AGameDotStart::InputTouchEndResponse(ETouchIndex::Type FingerIndex, UPrimit
 
 void AGameDotStart::EnterResponse()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Dot Start Touch Enter!"));
 	LineManager->EnterTouch();
 }
 
 void AGameDotStart::LeaveResponse(UPrimitiveComponent* TouchedComponent)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Dot Start Touch Leave!"));
 	LineManager->LeaveTouch(TouchedComponent);
 }

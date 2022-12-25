@@ -26,6 +26,8 @@ public:
 	int32 CurrentHealthPoint;
 
 	
+	int32 QuantityElementForGame;
+	
 	FGameOver GameOver;
 
 	
@@ -42,6 +44,7 @@ public:
 	
 	void AddCurrentScore(float AddedScore);
 	void DecreaseHealthPoint();
+	void DecreaseQuantityElement();
 	//TODO:: Check if this function are needed
 	void WinGameOver();
 };

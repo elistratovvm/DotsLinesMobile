@@ -22,13 +22,18 @@ void AGameSphere::Destroyed()
 	
 	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
 	
-	if (bIsTouchBegin && bIsTouchEnd)
+	if(GameState)
 	{
-		GameState->AddCurrentScore(MaxScore * CurrentScore);
-	}
-	else
-	{
-		GameState->DecreaseHealthPoint();
+		GameState->DecreaseQuantityElement();
+		
+		if (bIsTouchBegin && bIsTouchEnd)
+		{
+			GameState->AddCurrentScore(MaxScore * CurrentScore);
+		}
+		else
+		{
+			GameState->DecreaseHealthPoint();
+		}
 	}
 }
 

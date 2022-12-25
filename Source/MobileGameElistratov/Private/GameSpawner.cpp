@@ -62,18 +62,19 @@ void AGameSpawner::RemoveOneElement(AGameElement* GameActor)
 	}
 }
 
-float AGameSpawner::SpawnAndGetLevelTime(const UDataTable* GameTableDots)
+float AGameSpawner::SpawnAndGetQuantityElements(const UDataTable* GameTableDots)
 {
 	TArray<FGameTableDots*> DotsData;
 	GameTableDots->GetAllRows(TEXT("Spawn dots"), DotsData);
-	float MaxLifeTime = 0;
+	float QuantityElements = 0;
 	
 	for (FGameTableDots* Data : DotsData)
 	{
-		SetSpawnTimer(Data, &MaxLifeTime);
+		SetSpawnTimer(Data, &QuantityElements);
+		QuantityElements++;
 	}
 	
-	return MaxLifeTime;
+	return QuantityElements;
 }
 
 void AGameSpawner::SetSpawnTimer(FGameTableDots* Data, float* MaxLifeTime)
@@ -89,10 +90,6 @@ void AGameSpawner::SetSpawnTimer(FGameTableDots* Data, float* MaxLifeTime)
 			{
 				Data->SpawnTime = 0.000001f;
 			}
-			if (*MaxLifeTime < (Data->SpawnTime + Data->LifeTime))
-			{
-				*MaxLifeTime = Data->SpawnTime + Data->LifeTime;
-			}
 			LocalTimerDel.BindUObject(this, &AGameSpawner::SpawnLine, Data->Locations, Data->LifeTime);
 			GetWorldTimerManager().SetTimer(LocalSpawnTimer, LocalTimerDel, Data->SpawnTime, false);
 			break;
@@ -105,10 +102,6 @@ void AGameSpawner::SetSpawnTimer(FGameTableDots* Data, float* MaxLifeTime)
 			if(Data->SpawnTime < 0.000001f)
 			{
 				Data->SpawnTime = 0.000001f;
-			}
-			if (*MaxLifeTime < (Data->SpawnTime + Data->LifeTime))
-			{
-				*MaxLifeTime = Data->SpawnTime + Data->LifeTime;
 			}
 			LocalTimerDel.BindUObject(this, &AGameSpawner::SpawnSphere, Data->Locations[0], Data->LifeTime);
 			GetWorldTimerManager().SetTimer(LocalSpawnTimer, LocalTimerDel, Data->SpawnTime, false);
@@ -124,7 +117,7 @@ void AGameSpawner::SpawnSphere(FVector Location, float LifeTime)
 		Location,
 		FRotator());
 	
-	Sphere->SetLifeTime(LifeTime);
+	Sphere->SetLifeSpan(LifeTime);
 
 	GameElements.Add(Sphere);
 }
@@ -134,7 +127,7 @@ void AGameSpawner::SpawnLine(TArray<FVector> Locations, float LifeTime)
 	const int32 SizeNum = Locations.Num();
 	
 	AGameLine* Line = GetWorld()->SpawnActor<AGameLine>();
-	Line->SetLifeTime(LifeTime);
+	Line->SetLifeSpan(LifeTime);
 
 	GameElements.Add(Line);
 	
@@ -158,10 +151,6 @@ void AGameSpawner::SpawnLine(TArray<FVector> Locations, float LifeTime)
 	}
 
 	SpawnDotStart(Line, Locations[SizeNum - 1], LifeTime);
-
-#if WITH_EDITOR
-	Line->PrintText();
-#endif
 }
 
 void AGameSpawner::SpawnDotStart(AGameLine* Line, FVector Location, float LifeTime)
@@ -170,7 +159,7 @@ void AGameSpawner::SpawnDotStart(AGameLine* Line, FVector Location, float LifeTi
 		DotStart_Class,
 		Location,
 		FRotator());
-	DotStart->SetLifeTime(LifeTime);
+	DotStart->SetLifeSpan(LifeTime);
 	DotStart->LineManager = Line;
 	
 	Line->DotsStart.Add(DotStart);
@@ -183,7 +172,7 @@ void AGameSpawner::SpawnDot(AGameLine* Line, FVector Location, float LifeTime)
 			Dot_Class,
 			Location,
 			FRotator());
-	Dot->SetLifeTime(LifeTime);
+	Dot->SetLifeSpan(LifeTime);
 	Dot->LineManager = Line;
 	
 	Line->Dots.Add(Dot);
@@ -201,7 +190,7 @@ void AGameSpawner::SpawnSpline(AGameLine* Line, FVector FirstLocation, FVector S
 		SplineMesh_Class,
 		FirstLocation,
 		Rotation);
-	SplineMesh->SetLifeTime(LifeTime);
+	SplineMesh->SetLifeSpan(LifeTime);
 	SplineMesh->Length = EndPosX;
 	SplineMesh->ActorSecondDot = SecondLocation;
 	SplineMesh->SplineMeshComponent->SetEndPosition(FVector(EndPosX, 0, 0));

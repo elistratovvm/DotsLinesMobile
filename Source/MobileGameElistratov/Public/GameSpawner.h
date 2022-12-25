@@ -37,7 +37,7 @@ public:
 	void DestroyAllElements();
 	void RemoveOneElement(AGameElement* GameActor);
 	//TODO:: Make two function from this
-	float SpawnAndGetLevelTime(const UDataTable* FGameTableDots);
+	float SpawnAndGetQuantityElements(const UDataTable* FGameTableDots);
 	
 protected:
 	virtual void BeginPlay() override;

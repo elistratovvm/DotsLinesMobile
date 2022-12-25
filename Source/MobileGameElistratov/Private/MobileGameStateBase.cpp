@@ -25,15 +25,27 @@ void AMobileGameStateBase::AddCurrentScore(float AddedScore)
 
 void AMobileGameStateBase::DecreaseHealthPoint()
 {
-	CurrentHealthPoint -= 1;
+	CurrentHealthPoint--;
 	CurrentHealthPoint = FMath::Clamp(CurrentHealthPoint, 0, 5);
 	
-	if(CurrentHealthPoint == 0)
+	if(CurrentHealthPoint < 1)
 	{
+		CurrentHealthPoint = 0;
+		
 		if(GameOver.IsBound())
 		{
 			GameOver.Broadcast();
 		}
+	}
+}
+
+void AMobileGameStateBase::DecreaseQuantityElement()
+{
+	QuantityElementForGame--;
+
+	if(QuantityElementForGame < 1)
+	{
+		WinGameOver();
 	}
 }
 

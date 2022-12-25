@@ -18,7 +18,6 @@ AGameSplineMesh::AGameSplineMesh()
 	RootComponent = SplineMeshComponent;
 }
 
-// Called when the game starts or when spawned
 void AGameSplineMesh::BeginPlay()
 {
 	Super::BeginPlay();
@@ -34,37 +33,39 @@ void AGameSplineMesh::Tick(float DeltaSeconds)
 
 		DistanceToFirstDot = GetDistance(GetActorLocation(), VectorLocation);
 		DistanceToSecondDot = GetDistance(ActorSecondDot, VectorLocation);
-
+		
 		if (bIsReverse)
 		{
-			LineProgress = DistanceToSecondDot/Length;
+			if (LineProgress < DistanceToSecondDot/Length)
+			{
+				LineProgress = DistanceToSecondDot/Length;
+			}
 		}
 		else
 		{
-			LineProgress = DistanceToFirstDot/Length;
+			if (LineProgress < DistanceToFirstDot/Length)
+			{
+				LineProgress = DistanceToFirstDot/Length;
+			}
 		}
 		
 		CurrentScore += 1.f - (DistanceToFirstDot + DistanceToSecondDot - Length) / 22.5f;
 		NumberOfTicks++;
-
-		GEngine->AddOnScreenDebugMessage(-1, 1.f/60.f, FColor::Green,
-		FString::Printf(TEXT("%f, %f, %f, %f, %f, %f, %f"),
-			CurrentScore / NumberOfTicks,
-			VectorLocation.X, VectorLocation.Y,
-			DistanceToFirstDot + DistanceToSecondDot - Length,
-			DistanceToFirstDot, DistanceToSecondDot, 
-			LineProgress));
 	}
 }
 
 void AGameSplineMesh::Destroyed()
 {
 	Super::Destroyed();
-	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
 	
-	if (bIsTouchBegin && LineManager->bIsTouchBegin)
+	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
+
+	if(GameState)
 	{
-		GameState->AddCurrentScore(MaxScore * LineProgress * CurrentScore / NumberOfTicks);
+		if (bIsTouchBegin && LineManager->bIsTouchBegin)
+		{
+			GameState->AddCurrentScore(MaxScore * LineProgress * CurrentScore / NumberOfTicks);
+		}
 	}
 }
 
