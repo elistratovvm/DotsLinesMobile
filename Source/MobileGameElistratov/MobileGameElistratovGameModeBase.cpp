@@ -2,7 +2,7 @@
 
 #include "MobileGameElistratovGameModeBase.h"
 #include "MobileGamePlayerController.h"
-#include "GameManager.h"
+#include "Actors/Non-interactive/GameManager.h"
 
 AMobileGameElistratovGameModeBase::AMobileGameElistratovGameModeBase()
 {

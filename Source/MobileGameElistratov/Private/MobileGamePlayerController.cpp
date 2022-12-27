@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../Public/MobileGamePlayerController.h"
-#include "GameElement.h"
+#include "../Actors/Interactive/GameElement.h"
 #include "Camera/CameraActor.h"
 #include "Camera/CameraComponent.h"
 
@@ -12,6 +12,7 @@ AMobileGamePlayerController::AMobileGamePlayerController()
 	bEnableClickEvents = true;
 	bEnableTouchOverEvents = true;
 	bEnableMouseOverEvents = true;
+	bForceFeedbackEnabled = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 }
 

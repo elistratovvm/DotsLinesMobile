@@ -15,7 +15,10 @@ enum EGameState
 	MainMenu,
 	PlayGame,
 	GameOver,
+	GameWin,
 	Settings,
+	LevelConfirmation,
+	Pause
 };
 
 UCLASS()
@@ -33,7 +36,16 @@ public:
 	TSubclassOf<UUserWidget> GameOverWidgetClass;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UUserWidget> GameWinWidgetClass;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> SettingsWidgetClass;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UUserWidget> LevelConfirmationWidgetClass;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<UUserWidget> PauseWidgetClass;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UUserWidget* CurrentWidget;
@@ -41,13 +53,26 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UUserWidget* ModalWidget;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	int32 SelectedLevel;
+
 	UFUNCTION(BlueprintCallable)
 	void ChangeCurrentWidget(TEnumAsByte<EGameState> NewGameState);
+
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentGameState(TEnumAsByte<EGameState> NewGameState);
+
+	UFUNCTION(BlueprintCallable)
+	EGameState GetCurrentGameState();
 	
 protected:
 	virtual void BeginPlay() override;
 	
 private:
 	EGameState CurrentGameState;
+
+	void FieldCheck() const;
+	void CreateRegularWidget(TSubclassOf<UUserWidget> WidgetClass);
+	void CreateModalWidget(TSubclassOf<UUserWidget> WidgetClass);
 };
 

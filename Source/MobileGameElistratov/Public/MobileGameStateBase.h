@@ -46,5 +46,5 @@ public:
 	void DecreaseHealthPoint();
 	void DecreaseQuantityElement();
 	//TODO:: Check if this function are needed
-	void WinGameOver();
+	void GameOverFunction() const;
 };

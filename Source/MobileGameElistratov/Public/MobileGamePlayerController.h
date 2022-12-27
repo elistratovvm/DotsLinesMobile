@@ -16,13 +16,18 @@ class MOBILEGAMEELISTRATOV_API AMobileGamePlayerController : public APlayerContr
 
 public:
 	AMobileGamePlayerController();
-
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float ShortPressThreshold;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	ACameraActor* MainCamera;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bIsGameVibrateOn = true;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bIsMenuVibrateOn = true;
 	
 protected:
 	virtual void BeginPlay() override;
