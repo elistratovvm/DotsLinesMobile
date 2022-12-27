@@ -23,23 +23,23 @@ void AGameDotStart::InputTouchBeginResponse(ETouchIndex::Type FingerIndex, UPrim
 	}
 	
 	bIsTouchBegin = true;
-	LineManager->DotStartBeginTouch();
+	LineObject->DotStartBeginTouch();
 }
 
 void AGameDotStart::InputTouchEndResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
 	if(!bIsTouchBegin)
 	{
-		LineManager->DotStartEndTouch();
+		LineObject->DotStartEndTouch();
 	}
 }
 
 void AGameDotStart::EnterResponse()
 {
-	LineManager->EnterTouch();
+	LineObject->EnterTouch();
 }
 
 void AGameDotStart::LeaveResponse(UPrimitiveComponent* TouchedComponent)
 {
-	LineManager->LeaveTouch(TouchedComponent);
+	LineObject->LeaveTouch(TouchedComponent);
 }

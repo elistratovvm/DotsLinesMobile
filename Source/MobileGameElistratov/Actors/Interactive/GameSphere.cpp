@@ -25,8 +25,6 @@ void AGameSphere::Destroyed()
 	
 	if(GameState)
 	{
-		GameState->DecreaseQuantityElement();
-		
 		if (bIsTouchBegin && bIsTouchEnd)
 		{
 			GameState->AddCurrentScore(MaxScore * CurrentScore);
@@ -35,6 +33,8 @@ void AGameSphere::Destroyed()
 		{
 			GameState->DecreaseHealthPoint();
 		}
+
+		GameState->DecreaseQuantityElement();
 	}
 }
 

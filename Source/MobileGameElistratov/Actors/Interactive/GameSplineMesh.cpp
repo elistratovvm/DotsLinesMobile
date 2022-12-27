@@ -63,8 +63,8 @@ void AGameSplineMesh::Tick(float DeltaSeconds)
 			}
 		}
 		
-		CurrentScore += 1.f - (DistanceToFirstDot + DistanceToSecondDot - Length) / 22.5f;
-		NumberOfTicks++;
+		ScorePercent += 1.f - (DistanceToFirstDot + DistanceToSecondDot - Length) / 22.5f;
+		QuantityOfTicks++;
 	}
 }
 
@@ -78,7 +78,7 @@ void AGameSplineMesh::Destroyed()
 	{
 		if (bIsTouchBegin && LineObject->bIsTouchBegin)
 		{
-			GameState->AddCurrentScore(MaxScore * LineProgress * CurrentScore / NumberOfTicks);
+			GameState->AddCurrentScore(MaxScore * LineProgress * ScorePercent / QuantityOfTicks);
 		}
 	}
 }

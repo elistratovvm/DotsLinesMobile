@@ -15,32 +15,21 @@ class MOBILEGAMEELISTRATOV_API AMobileGamePlayerController : public APlayerContr
 	GENERATED_BODY()
 
 public:
+	/** Default constructor for AMobileGamePlayerController */
 	AMobileGamePlayerController();
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
-	float ShortPressThreshold;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	ACameraActor* MainCamera;
 
+	/** If true, when interacting with game elements device will vibrate */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bIsGameVibrateOn = true;
 
+	/** If true, when interacting with menu elements device will vibrate */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	bool bIsMenuVibrateOn = true;
 	
 protected:
+	/** Override for set Main Camera */
 	virtual void BeginPlay() override;
-	virtual void SetupInputComponent() override;
-
-	//TODO::Check if this functions are needed
-	/** Input handlers for SetDestination action. */
-	void OnSetDestinationPressed();
-	void OnSetDestinationReleased();
-	void OnTouchPressed(const ETouchIndex::Type FingerIndex, const FVector Location);
-	void OnTouchReleased(const ETouchIndex::Type FingerIndex, const FVector Location);
-
-private:
-	bool bInputPressed; // Input is bring pressed
-	bool bIsTouch; // Is it a touch device
 };

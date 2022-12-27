@@ -15,13 +15,13 @@ public:
 	/** Default constructor for AGameSphere */
 	AGameSphere();
 
-	/** Sphere Mesh */
+	/** Sphere Mesh. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* SphereMesh;
 
 	/** Adds a score or reduces number of lives depending sphere was successfully touched or not */
 	virtual void Destroyed() override;
-
+	
 	/** Calculates score for interaction with sphere when touch begin */
 	UFUNCTION()
 	void InputTouchBeginResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);

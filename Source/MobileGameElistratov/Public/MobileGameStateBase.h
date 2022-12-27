@@ -16,22 +16,23 @@ class MOBILEGAMEELISTRATOV_API AMobileGameStateBase : public AGameStateBase
 {
 	GENERATED_BODY()
 public:
+	/** Current score per level */
 	UPROPERTY(BlueprintReadOnly)
 	int32 CurrentScore;
-	
+
+	/** Maximum value of health point */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Player Settings")
 	int32 MaxHealthPoint;
 	
 	UPROPERTY(BlueprintReadOnly)
 	int32 CurrentHealthPoint;
 
-	
+	/** Quantity element for game continue. If equal zero, the game will be over. */
 	int32 QuantityElementForGame;
-	
-	FGameOver GameOver;
 
+	/** Dynamic delegate for game over */
+	FGameOver GameOver;
 	
-	//TODO:: Check if this function are needed
 	UFUNCTION(BlueprintCallable)
 	float GetCurrentScore();
 	
@@ -40,11 +41,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void ResetCurrentHealth();
-
 	
 	void AddCurrentScore(float AddedScore);
 	void DecreaseHealthPoint();
 	void DecreaseQuantityElement();
-	//TODO:: Check if this function are needed
 	void GameOverFunction() const;
 };

@@ -24,7 +24,7 @@ void AGameDot::Destroyed()
 	AMobileGameStateBase* GameState = Cast<AMobileGameStateBase>(GetWorld()->GetGameState());
 	if(GameState)
 	{
-		if (bIsTouchBegin && LineManager->bIsTouchBegin)
+		if (bIsTouchBegin && LineObject->bIsTouchBegin)
 		{
 			GameState->AddCurrentScore(MaxScore);
 		}
@@ -43,7 +43,7 @@ void AGameDot::InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitive
 
 void AGameDot::EnterResponse()
 {
-	if(LineManager->bIsTouchBegin)
+	if(LineObject->bIsTouchBegin)
 	{
 		AMobileGamePlayerController* PlayerController =
 			Cast<AMobileGamePlayerController>(GetWorld()->GetFirstPlayerController());
@@ -54,7 +54,7 @@ void AGameDot::EnterResponse()
 		}
 		
 		bIsTouchBegin = true;
-		LineManager->EnterTouch();
+		LineObject->EnterTouch();
 	}
 }
 
@@ -62,6 +62,6 @@ void AGameDot::LeaveResponse(UPrimitiveComponent* TouchedComponent)
 {
 	if (bIsTouchBegin)
 	{
-		LineManager->LeaveTouch(TouchedComponent);
+		LineObject->LeaveTouch(TouchedComponent);
 	}
 }

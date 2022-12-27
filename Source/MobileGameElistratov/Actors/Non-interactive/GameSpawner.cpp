@@ -19,6 +19,7 @@ AGameSpawner::AGameSpawner()
 void AGameSpawner::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	if (!Sphere_Class)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Could not find the Sphere class. Did you make assigment on Blueprint?"));
@@ -43,12 +44,9 @@ void AGameSpawner::BeginPlay()
 
 void AGameSpawner::DestroyAllElements()
 {
-	for (AGameElement* Actor : GameElements)
+	for (TIndexedContainerIterator Iterator = GameElements.CreateIterator(); Iterator; ++Iterator)
 	{
-		if (IsValid(Actor))
-		{
-			Actor->Destroy();
-		}
+		(*Iterator)->Destroy();
 	}
 	
 	GameElements.Reset();
@@ -70,14 +68,14 @@ float AGameSpawner::SpawnAndGetQuantityElements(const UDataTable* GameTableDots)
 	
 	for (FGameTableDots* Data : DotsData)
 	{
-		SetSpawnTimer(Data, &QuantityElements);
+		SetSpawnTimer(Data);
 		QuantityElements++;
 	}
 	
 	return QuantityElements;
 }
 
-void AGameSpawner::SetSpawnTimer(FGameTableDots* Data, float* MaxLifeTime)
+void AGameSpawner::SetSpawnTimer(FGameTableDots* Data)
 {
 	switch (Data->GameElementType)
 	{
@@ -160,7 +158,7 @@ void AGameSpawner::SpawnDotStart(AGameLine* Line, FVector Location, float LifeTi
 		Location,
 		FRotator());
 	DotStart->SetLifeSpan(LifeTime);
-	DotStart->LineManager = Line;
+	DotStart->LineObject = Line;
 	
 	Line->LineElements.Add(DotStart);
 	GameElements.Add(DotStart);
@@ -173,7 +171,7 @@ void AGameSpawner::SpawnDot(AGameLine* Line, FVector Location, float LifeTime)
 			Location,
 			FRotator());
 	Dot->SetLifeSpan(LifeTime);
-	Dot->LineManager = Line;
+	Dot->LineObject = Line;
 	
 	Line->LineElements.Add(Dot);
 	GameElements.Add(Dot);

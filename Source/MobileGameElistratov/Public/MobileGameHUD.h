@@ -6,9 +6,6 @@
 #include "GameFramework/HUD.h"
 #include "MobileGameHUD.generated.h"
 
-/**
- * 
- */
 UENUM(BlueprintType)
 enum EGameState
 {
@@ -21,47 +18,63 @@ enum EGameState
 	Pause
 };
 
+/** HUD for creating widget */
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AMobileGameHUD : public AHUD
 {
 	GENERATED_BODY()
 public:
+	/** Subclass of main menu widget. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> MainMenuWidgetClass;
 
+	/** Subclass of play game widget. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> GameWidgetClass;
 
+	/** Subclass of game over widget. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> GameOverWidgetClass;
 
+	/** Subclass of game win widget. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> GameWinWidgetClass;
 
+	/** Subclass of settings widget. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> SettingsWidgetClass;
 
+	/** Subclass of level confirmation widget. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> LevelConfirmationWidgetClass;
 
+	/** Subclass of pause widget. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<UUserWidget> PauseWidgetClass;
 
+	/** Current regular widget */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UUserWidget* CurrentWidget;
 
+	/** Last called modal widget */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UUserWidget* ModalWidget;
 
+	/** Current selected level */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int32 SelectedLevel;
 
+	/**
+	 *	Change game state and create the corresponding widget
+	 *
+	 *	@param NewGameState		New current game state
+	 */
 	UFUNCTION(BlueprintCallable)
 	void ChangeCurrentWidget(TEnumAsByte<EGameState> NewGameState);
-
+	
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentGameState(TEnumAsByte<EGameState> NewGameState);
-
+	
 	UFUNCTION(BlueprintCallable)
 	EGameState GetCurrentGameState();
 	
@@ -72,7 +85,19 @@ private:
 	EGameState CurrentGameState;
 
 	void FieldCheck() const;
+
+	/**
+	 *	Create new regular widget
+	 *
+	 *	@param WidgetClass		Class of spawned widget
+	 */
 	void CreateRegularWidget(TSubclassOf<UUserWidget> WidgetClass);
+
+	/**
+	 *	Create new modal widget
+	 *
+	 *	@param WidgetClass		Class of spawned widget
+	 */
 	void CreateModalWidget(TSubclassOf<UUserWidget> WidgetClass);
 };
 

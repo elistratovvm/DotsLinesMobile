@@ -26,7 +26,6 @@ void AMobileGameStateBase::AddCurrentScore(float AddedScore)
 void AMobileGameStateBase::DecreaseHealthPoint()
 {
 	CurrentHealthPoint--;
-	CurrentHealthPoint = FMath::Clamp(CurrentHealthPoint, 0, MaxHealthPoint);
 	
 	if(CurrentHealthPoint == 0)
 	{

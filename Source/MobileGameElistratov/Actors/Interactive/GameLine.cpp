@@ -12,8 +12,6 @@ void AGameLine::Destroyed()
 	
 	if(GameState)
 	{
-		GameState->DecreaseQuantityElement();
-	
 		if (bIsTouchBegin)
 		{
 			GameState->AddCurrentScore(MaxScore);
@@ -22,6 +20,8 @@ void AGameLine::Destroyed()
 		{
 			GameState->DecreaseHealthPoint();
 		}
+
+		GameState->DecreaseQuantityElement();
 	}
 }
 

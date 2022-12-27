@@ -9,32 +9,45 @@
 
 class AGameSpawner;
 
+/* Game manager linking spawner, widgets and game state */
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AGameManager : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
+	/** Default constructor for AGameManager */
 	AGameManager();
 
-	
+	/** Subclass of spawner. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AGameSpawner> SpawnerClass;
 
-	
+	/**
+	 *	Remove element from a spawn array.
+	 *
+	 *	@param GameActor		Removable element
+	 */
 	void RemoveFromSpawnArray(class AGameElement* GameActor) const;
 
-	
+	/**
+	 *	Spawn game elements from data table
+	 *
+	 *	@param FGameDataTable		Data table with game elements
+	 */
 	UFUNCTION(BlueprintCallable)
-	void SpawnLevel(const UDataTable* FGameTableDots);
-	
+	void SpawnLevel(const UDataTable* FGameDataTable);
+
+	/** Destroy all elements in a spawn array */
 	UFUNCTION(BlueprintCallable)
 	void DeleteSpawnActors();
-	
+
+	/** Create Game over or Game win widget and call function DeleteSpawnActors() */
 	UFUNCTION()
 	void GameOverDelegateFunction();
 
 protected:
+	/** Override for get spawner and game state */
 	virtual void BeginPlay() override;
 
 private:

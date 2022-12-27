@@ -6,7 +6,7 @@
 #include "GameElement.h"
 #include "GameDot.generated.h"
 
-/** Part of line along which line is drawn */
+/** Part of the line along which line is drawn */
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AGameDot : public AGameElement
 {
@@ -15,13 +15,13 @@ public:
 	/** Default constructor for AGameDot */
 	AGameDot();
 
-	/** Sphere Mesh */
+	/** Sphere Mesh. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* SphereMesh;
 
 	/** Line object to which dot belongs */
 	UPROPERTY()
-	class AGameLine* LineManager;
+	class AGameLine* LineObject;
 
 	/** Override for adds a score if line and dot were successfully touched */
 	virtual void Destroyed() override;
@@ -30,7 +30,7 @@ public:
 	 *	Event for call EnterResponse()
 	 *
 	 *	@param FingerIndex			The index of finger that touched the dot
-	 *	@param TouchedComponent		Element that was touched (In this case, the dot)
+	 *	@param TouchedComponent		UPrimitiveComponent of dot
 	 *	
 	 *	@see EnterResponse()
 	 */
@@ -41,7 +41,7 @@ public:
 	 *	Event for call LeaveResponse()
 	 *
 	 *	@param FingerIndex			The index of finger that touched the dot
-	 *	@param TouchedComponent		Element that was touched (In this case, the dot)
+	 *	@param TouchedComponent		UPrimitiveComponent of dot
 	 *	
 	 *	@see LeaveResponse()
 	 */
@@ -49,7 +49,12 @@ public:
 	void InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 
 protected:
-	
+	/** If line successfully touched, call EnterTouch() of LineObject */
 	virtual void EnterResponse();
+	
+	/** If line and dot successfully touched, call LeaveTouch() of LineObject
+	 *
+	 *	@param TouchedComponent			UPrimitiveComponent of dot
+	 */
 	virtual void LeaveResponse(UPrimitiveComponent* TouchedComponent);
 };

@@ -6,11 +6,7 @@
 #include "GameElement.h"
 #include "GameSplineMesh.generated.h"
 
-/**
- * 
- */
-
-class AMobileGamePlayerController;
+/** Part of the line that connects the dots */
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AGameSplineMesh : public AGameElement
 {
@@ -34,7 +30,7 @@ public:
 	UPROPERTY()
 	class AGameLine* LineObject;
 
-	/** Line progress form 0 to 1 */
+	/** Line progress, from 0 to 1 */
 	UPROPERTY(BlueprintReadOnly)
 	float LineProgress = 0.f;
 
@@ -49,8 +45,8 @@ public:
 	virtual void Destroyed() override;
 
 	/**
-	 *	Event for complete line progress and  call function LeaveTouch() of LineObject
-	 *	if line and spline mesh were successfully touched
+	 *	Event for assign a value bIsReverse  and call function EnterTouch() of LineObject
+	 *	if line were successfully touched
 	 *
 	 *	@param FingerIndex			The index of finger that touched the dot
 	 *	@param TouchedComponent		Element that was touched (In this case, the dot)
@@ -78,16 +74,26 @@ private:
 
 	/** Distance to second dot of spline mesh */
 	float DistanceToSecondDot;
-	
-	float CurrentScore = 0.f;
-	int32 NumberOfTicks = 0;
 
-	/** Location of second dot of spline mesh */
+	/** Percentage of core from maximum score, from 0 to 1 */
+	float ScorePercent = 0.f;
+	
+	int32 QuantityOfTicks = 0;
+
+	/** Location Vector for method DeprojectMousePositionToWorld() of PlayerController */
 	FVector VectorLocation;
+	
+	/** Direction Vector for method DeprojectMousePositionToWorld() of PlayerController */
 	FVector VectorDirection;
 
 	UPROPERTY()
-	AMobileGamePlayerController* PlayerController;
-	
+	class AMobileGamePlayerController* PlayerController;
+
+	/**
+	 * Get distance in x and y between FirstDot and SecondDot
+	 *
+	 * @param FirstDot		FVector with location of first dot
+	 * @param SecondDot		FVector with location of second dot
+	 */
 	float GetDistance(FVector FirstDot, FVector SecondDot) const;
 };
