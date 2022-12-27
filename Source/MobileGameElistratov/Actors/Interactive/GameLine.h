@@ -23,7 +23,8 @@ public:
 	/** Set bIsTouchBegin and bOnTheLine to true */
 	void DotStartBeginTouch();
 
-	/** If bIsTouchBegin is true call function DestroyLine()
+	/**
+	 *	If bIsTouchBegin is true call function DestroyLine()
 	 * @see DestroyLine()
 	 */
 	void DotStartEndTouch();
@@ -41,7 +42,8 @@ public:
 	 */
 	void LeaveTouch(UPrimitiveComponent* TouchedComponent);
 	
-	/** If bOnTheLine is false, clear DeathTimer and call function Destroy()
+	/**
+	 *	If bOnTheLine is false, clear DeathTimer and call function Destroy()
 	 *	for all line elements and the line itself
 	 */
 	void DestroyLine();

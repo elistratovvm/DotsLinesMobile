@@ -12,9 +12,6 @@ class MOBILEGAMEELISTRATOV_API AGameElement : public AActor
 {
 	GENERATED_BODY()
 public:
-	/** Default constructor for AGameElement */
-	AGameElement();
-
 	/** If true, function requiring touch can be fired */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	bool bIsTouchBegin = false;
@@ -27,9 +24,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float MaxScore;
 
+	/** Force feedback effect for game element */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Feedback")
 	UForceFeedbackEffect* MobileForceFeedbackEffect;
 
-	/** Remove element from array of spawned elements */
+	/** Override for remove element from array of spawned elements */
 	virtual void BeginDestroy() override;
 };

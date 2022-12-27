@@ -10,6 +10,8 @@
 
 AGameSplineMesh::AGameSplineMesh()
 {
+	PrimaryActorTick.bCanEverTick = true;
+	
 	SplineMeshComponent = CreateDefaultSubobject<USplineMeshComponent>(TEXT("Game Spline Mesh Component"));
 	SplineMeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	SplineMeshComponent->SetCollisionProfileName("BlockAll");
@@ -22,20 +24,19 @@ AGameSplineMesh::AGameSplineMesh()
 void AGameSplineMesh::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	PlayerController = Cast<AMobileGamePlayerController>(GetWorld()->GetFirstPlayerController());
 }
 
 void AGameSplineMesh::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	if (bIsTouchBegin && LineManager->bIsTouchBegin && !bIsTouchEnd)
+	if (bIsTouchBegin && LineObject->bIsTouchBegin && !bIsTouchEnd)
 	{
 		PlayerController->DeprojectMousePositionToWorld(VectorLocation, VectorDirection);
-
-		
 		
 		DistanceToFirstDot = GetDistance(GetActorLocation(), VectorLocation);
-		DistanceToSecondDot = GetDistance(ActorSecondDot, VectorLocation);
+		DistanceToSecondDot = GetDistance(LocationSecondDot, VectorLocation);
 		
 		if (bIsReverse)
 		{
@@ -75,7 +76,7 @@ void AGameSplineMesh::Destroyed()
 
 	if(GameState)
 	{
-		if (bIsTouchBegin && LineManager->bIsTouchBegin)
+		if (bIsTouchBegin && LineObject->bIsTouchBegin)
 		{
 			GameState->AddCurrentScore(MaxScore * LineProgress * CurrentScore / NumberOfTicks);
 		}
@@ -84,26 +85,26 @@ void AGameSplineMesh::Destroyed()
 
 void AGameSplineMesh::InputTouchEnterResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
-	if (LineManager->bIsTouchBegin)
+	if (LineObject->bIsTouchBegin)
 	{
 		bIsTouchBegin = true;
 		
 		PlayerController->DeprojectMousePositionToWorld(VectorLocation, VectorDirection);
 		DistanceToFirstDot = GetDistance(GetActorLocation(), VectorLocation);
-		DistanceToSecondDot = GetDistance(ActorSecondDot, VectorLocation);
+		DistanceToSecondDot = GetDistance(LocationSecondDot, VectorLocation);
 		
 		if (DistanceToSecondDot < DistanceToFirstDot)
 		{
 			bIsReverse = true;
 		}
 
-		LineManager->EnterTouch();
+		LineObject->EnterTouch();
 	}
 }
 
 void AGameSplineMesh::InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent)
 {
-	if (bIsTouchBegin && LineManager->bIsTouchBegin)
+	if (bIsTouchBegin && LineObject->bIsTouchBegin)
 	{
 		if (LineProgress > 0.8f)
 		{
@@ -111,7 +112,7 @@ void AGameSplineMesh::InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPr
 		}
 		bIsTouchEnd = true;
 		
-		LineManager->LeaveTouch(TouchedComponent);
+		LineObject->LeaveTouch(TouchedComponent);
 	}
 }
 

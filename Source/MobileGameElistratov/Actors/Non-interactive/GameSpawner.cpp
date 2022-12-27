@@ -192,12 +192,12 @@ void AGameSpawner::SpawnSpline(AGameLine* Line, FVector FirstLocation, FVector S
 		Rotation);
 	SplineMesh->SetLifeSpan(LifeTime);
 	SplineMesh->Length = EndPosX;
-	SplineMesh->ActorSecondDot = SecondLocation;
+	SplineMesh->LocationSecondDot = SecondLocation;
 	SplineMesh->SplineMeshComponent->SetEndPosition(FVector(EndPosX, 0, 0));
 	SplineMesh->SplineMeshComponent->SetForwardAxis(ESplineMeshAxis::Z);
 	SplineMesh->SplineMeshComponent->SetStartScale(FVector2D(0.8));
 	SplineMesh->SplineMeshComponent->SetEndScale(FVector2D(0.8));
-	SplineMesh->LineManager = Line;
+	SplineMesh->LineObject = Line;
 	
 	Line->LineElements.Add(SplineMesh);
 	GameElements.Add(SplineMesh);

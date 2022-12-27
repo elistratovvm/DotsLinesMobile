@@ -5,11 +5,6 @@
 #include "../Non-interactive/GameManager.h"
 #include "MobileGameElistratov/MobileGameElistratovGameModeBase.h"
 
-AGameElement::AGameElement()
-{
-	PrimaryActorTick.bCanEverTick = true;
-}
-
 void AGameElement::BeginDestroy()
 {
 	Super::BeginDestroy();

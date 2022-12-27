@@ -15,6 +15,7 @@ class MOBILEGAMEELISTRATOV_API AGameDotStart : public AGameDot
 	GENERATED_BODY()
 
 public:
+	/** Default constructor for AGameDotStart */
 	AGameDotStart();
 
 	

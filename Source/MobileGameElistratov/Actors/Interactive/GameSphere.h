@@ -12,6 +12,7 @@ class MOBILEGAMEELISTRATOV_API AGameSphere : public AGameElement
 {
 	GENERATED_BODY()
 public:
+	/** Default constructor for AGameSphere */
 	AGameSphere();
 
 	/** Sphere Mesh */
