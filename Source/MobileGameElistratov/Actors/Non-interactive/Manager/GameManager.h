@@ -16,18 +16,12 @@ class MOBILEGAMEELISTRATOV_API AGameManager : public AActor
 	GENERATED_BODY()
 	
 public:
-	/** Default constructor for AGameManager */
 	AGameManager();
 
 	/** Subclass of spawner. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AGameSpawner> SpawnerClass;
-
-	/**
-	 *	Remove element from a spawn array.
-	 *
-	 *	@param GameActor		Removable element
-	 */
+	
 	void RemoveFromSpawnArray(class AGameElement* GameActor) const;
 
 	/**
@@ -38,7 +32,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnLevel(const UDataTable* FGameDataTable);
 
-	/** Destroy all elements in a spawn array */
+	/** Destroy all elements in a spawn array and clear all timers */
 	UFUNCTION(BlueprintCallable)
 	void DeleteSpawnActors();
 

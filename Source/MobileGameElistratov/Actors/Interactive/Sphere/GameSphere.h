@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameElement.h"
+#include "../GameElement.h"
 #include "GameSphere.generated.h"
 
 /** Game sphere class */
@@ -12,10 +12,8 @@ class MOBILEGAMEELISTRATOV_API AGameSphere : public AGameElement
 {
 	GENERATED_BODY()
 public:
-	/** Default constructor for AGameSphere */
 	AGameSphere();
-
-	/** Sphere Mesh. Settings on Blueprint. */
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UStaticMeshComponent* SphereMesh;
 
@@ -31,6 +29,5 @@ public:
 	void InputTouchEndResponse(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 	
 private:
-	/** Score for interaction with sphere */
 	float CurrentScore;
 };

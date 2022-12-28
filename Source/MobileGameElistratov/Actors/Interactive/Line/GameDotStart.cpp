@@ -4,7 +4,7 @@
 #include "GameDotStart.h"
 
 #include "GameLine.h"
-#include "MobileGamePlayerController.h"
+#include "MobileGameElistratov/PlayerController/MobileGamePlayerController.h"
 
 AGameDotStart::AGameDotStart()
 {

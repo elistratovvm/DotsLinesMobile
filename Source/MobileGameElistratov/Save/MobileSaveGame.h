@@ -6,9 +6,7 @@
 #include "GameFramework/SaveGame.h"
 #include "MobileSaveGame.generated.h"
 
-/**
- * 
- */
+/** Save class */
 UCLASS()
 class MOBILEGAMEELISTRATOV_API UMobileSaveGame : public USaveGame
 {

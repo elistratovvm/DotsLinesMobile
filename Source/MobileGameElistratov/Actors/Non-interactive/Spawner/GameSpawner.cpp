@@ -2,14 +2,14 @@
 
 #include "GameSpawner.h"
 
-#include "../Interactive/GameDot.h"
-#include "../Interactive/GameDotStart.h"
-#include "../Interactive/GameLine.h"
-#include "../Interactive/GameSphere.h"
-#include "../Interactive/GameSplineMesh.h"
-#include "Components/SplineMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Components/SplineMeshComponent.h"
+#include "MobileGameElistratov/Actors/Interactive/Sphere/GameSphere.h"
+#include "MobileGameElistratov/Actors/Interactive/Line/GameDot.h"
+#include "MobileGameElistratov/Actors/Interactive/Line/GameDotStart.h"
+#include "MobileGameElistratov/Actors/Interactive/Line/GameSplineMesh.h"
+#include "MobileGameElistratov/Actors/Interactive/Line/GameLine.h"
 
 AGameSpawner::AGameSpawner()
 {
@@ -20,26 +20,7 @@ void AGameSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (!Sphere_Class)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Could not find the Sphere class. Did you make assigment on Blueprint?"));
-		return;
-	}
-	if (!Dot_Class)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Could not find the Dot class. Did you make assigment on Blueprint?"));
-		return;
-	}
-	if (!DotStart_Class)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Could not find the Dot Start class. Did you make assigment on Blueprint?"));
-		return;
-	}
-	if (!SplineMesh_Class)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Could not find the SplineMesh class. Did you make assigment on Blueprint?"));
-		return;
-	}
+	FieldCheck();
 }
 
 void AGameSpawner::DestroyAllElements()
@@ -68,8 +49,11 @@ float AGameSpawner::SpawnAndGetQuantityElements(const UDataTable* GameTableDots)
 	
 	for (FGameTableDots* Data : DotsData)
 	{
-		SetSpawnTimer(Data);
-		QuantityElements++;
+		if (!Data->Locations.IsEmpty())
+		{
+			SetSpawnTimer(Data);
+			QuantityElements++;
+		}
 	}
 	
 	return QuantityElements;
@@ -199,4 +183,24 @@ void AGameSpawner::SpawnSpline(AGameLine* Line, FVector FirstLocation, FVector S
 	
 	Line->LineElements.Add(SplineMesh);
 	GameElements.Add(SplineMesh);
+}
+
+void AGameSpawner::FieldCheck() const
+{
+	if (!Sphere_Class)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Could not find the Sphere class. Did you make assigment on Blueprint?"));
+	}
+	if (!Dot_Class)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Could not find the Dot class. Did you make assigment on Blueprint?"));
+	}
+	if (!DotStart_Class)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Could not find the Dot Start class. Did you make assigment on Blueprint?"));
+	}
+	if (!SplineMesh_Class)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Could not find the SplineMesh class. Did you make assigment on Blueprint?"));
+	}
 }

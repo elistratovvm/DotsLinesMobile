@@ -83,21 +83,9 @@ protected:
 	
 private:
 	EGameState CurrentGameState;
-
-	void FieldCheck() const;
-
-	/**
-	 *	Create new regular widget
-	 *
-	 *	@param WidgetClass		Class of spawned widget
-	 */
+	
 	void CreateRegularWidget(TSubclassOf<UUserWidget> WidgetClass);
-
-	/**
-	 *	Create new modal widget
-	 *
-	 *	@param WidgetClass		Class of spawned widget
-	 */
 	void CreateModalWidget(TSubclassOf<UUserWidget> WidgetClass);
+	void FieldCheck() const;
 };
 

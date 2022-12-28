@@ -1,8 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "MobileGameElistratovGameModeBase.h"
-#include "MobileGamePlayerController.h"
-#include "Actors/Non-interactive/GameManager.h"
+#include "Actors/Non-interactive/Manager/GameManager.h"
+#include "PlayerController/MobileGamePlayerController.h"
 
 AMobileGameElistratovGameModeBase::AMobileGameElistratovGameModeBase()
 {

@@ -6,16 +6,13 @@
 #include "GameFramework/PlayerController.h"
 #include "MobileGamePlayerController.generated.h"
 
-/**
- * 
- */
+/** Player Controller class */
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AMobileGamePlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
 public:
-	/** Default constructor for AMobileGamePlayerController */
 	AMobileGamePlayerController();
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)

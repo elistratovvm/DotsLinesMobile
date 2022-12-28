@@ -3,9 +3,9 @@
 
 #include "GameManager.h"
 
-#include "GameSpawner.h"
-#include "MobileGameHUD.h"
-#include "MobileGameStateBase.h"
+#include "../Spawner/GameSpawner.h"
+#include "MobileGameElistratov/GameState/MobileGameStateBase.h"
+#include "MobileGameElistratov/HUD/MobileGameHUD.h"
 
 AGameManager::AGameManager()
 {

@@ -2,8 +2,8 @@
 
 #include "GameElement.h"
 
-#include "../Non-interactive/GameManager.h"
 #include "MobileGameElistratov/MobileGameElistratovGameModeBase.h"
+#include "MobileGameElistratov/Actors/Non-interactive/Manager/GameManager.h"
 
 void AGameElement::BeginDestroy()
 {

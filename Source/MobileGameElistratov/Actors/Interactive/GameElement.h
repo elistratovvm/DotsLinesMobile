@@ -20,11 +20,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	bool bIsTouchEnd = false;
 
-	/** Maximum score for interacting with element */
+	/** Maximum score for interacting with element. Settings on blueprint. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	float MaxScore;
 
-	/** Force feedback effect for game element */
+	/** Force feedback effect for game element. Settings on blueprint. */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Feedback")
 	UForceFeedbackEffect* MobileForceFeedbackEffect;
 

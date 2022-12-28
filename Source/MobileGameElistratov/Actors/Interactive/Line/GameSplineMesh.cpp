@@ -4,9 +4,9 @@
 #include "GameSplineMesh.h"
 
 #include "GameLine.h"
-#include "MobileGamePlayerController.h"
-#include "MobileGameStateBase.h"
 #include "Components/SplineMeshComponent.h"
+#include "MobileGameElistratov/GameState/MobileGameStateBase.h"
+#include "MobileGameElistratov/PlayerController/MobileGamePlayerController.h"
 
 AGameSplineMesh::AGameSplineMesh()
 {
@@ -106,7 +106,7 @@ void AGameSplineMesh::InputTouchLeaveResponse(ETouchIndex::Type FingerIndex, UPr
 {
 	if (bIsTouchBegin && LineObject->bIsTouchBegin)
 	{
-		if (LineProgress > 0.8f)
+		if (LineProgress > 0.75f)
 		{
 			LineProgress = 1.f;
 		}

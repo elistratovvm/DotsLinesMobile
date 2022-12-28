@@ -3,8 +3,8 @@
 
 #include "GameSphere.h"
 
-#include "MobileGamePlayerController.h"
-#include "MobileGameStateBase.h"
+#include "MobileGameElistratov/GameState/MobileGameStateBase.h"
+#include "MobileGameElistratov/PlayerController/MobileGamePlayerController.h"
 
 AGameSphere::AGameSphere()
 {

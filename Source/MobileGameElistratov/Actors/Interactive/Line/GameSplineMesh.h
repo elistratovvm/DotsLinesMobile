@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameElement.h"
+#include "../GameElement.h"
 #include "GameSplineMesh.generated.h"
 
 /** Part of the line that connects the dots */

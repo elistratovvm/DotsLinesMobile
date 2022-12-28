@@ -6,11 +6,9 @@
 #include "GameFramework/GameModeBase.h"
 #include "MobileGameElistratovGameModeBase.generated.h"
 
-/**
- * 
- */
 class AGameManager;
- 
+
+/** Game mode class */
 UCLASS()
 class MOBILEGAMEELISTRATOV_API AMobileGameElistratovGameModeBase : public AGameModeBase
 {
@@ -19,7 +17,7 @@ class MOBILEGAMEELISTRATOV_API AMobileGameElistratovGameModeBase : public AGameM
 public:
 	AMobileGameElistratovGameModeBase();
 
-	
+	/** Subclass of game manager. Settings on Blueprint. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AGameManager> GameManager;
 	

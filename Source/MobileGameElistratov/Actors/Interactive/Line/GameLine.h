@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameElement.h"
+#include "../GameElement.h"
 #include "GameLine.generated.h"
 
 /** Class responsible for management of one line */
@@ -51,7 +51,6 @@ public:
 private:
 	/** If true, function DestroyLine() does not destroy line */
 	bool bOnTheLine;
-
-	/** Handle for checking out of the line */
+	
 	FTimerHandle DeathTimer;
 };

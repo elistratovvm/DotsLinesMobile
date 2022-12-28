@@ -16,11 +16,9 @@ class MOBILEGAMEELISTRATOV_API AMobileGameStateBase : public AGameStateBase
 {
 	GENERATED_BODY()
 public:
-	/** Current score per level */
 	UPROPERTY(BlueprintReadOnly)
 	int32 CurrentScore;
-
-	/** Maximum value of health point */
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Player Settings")
 	int32 MaxHealthPoint;
 	
