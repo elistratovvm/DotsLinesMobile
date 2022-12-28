@@ -3,6 +3,10 @@
 
 #include "MobileGameStateBase.h"
 
+#include "GameFramework/GameSession.h"
+#include "MobileGameElistratov/HUD/MobileGameHUD.h"
+#include "MobileGameElistratov/PlayerController/MobileGamePlayerController.h"
+
 float AMobileGameStateBase::GetCurrentScore()
 {
 	return CurrentScore;
@@ -45,8 +49,19 @@ void AMobileGameStateBase::DecreaseQuantityElement()
 
 void AMobileGameStateBase::GameOverFunction() const
 {
-	if(GameOver.IsBound())
+	AMobileGamePlayerController* PlayerController =
+		Cast<AMobileGamePlayerController>(GetWorld()->GetFirstPlayerController());
+
+	if(PlayerController)
 	{
-		GameOver.Broadcast();
+		AMobileGameHUD* HUD = Cast<AMobileGameHUD>(PlayerController->GetHUD());
+		
+		if(GameOver.IsBound() && HUD->GetCurrentGameState() == PlayGame)
+		{
+			GameOver.Broadcast();
+		}
 	}
+	
+	
+	
 }
