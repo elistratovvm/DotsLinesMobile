@@ -37,11 +37,14 @@ void AGameManager::RemoveFromSpawnArray(AGameElement* GameActor) const
 	Spawner->RemoveOneElement(GameActor);
 }
 
-void AGameManager::SpawnLevel(const UDataTable* FGameDataTable)
+void AGameManager::SpawnLevelByIndex(const int Index)
 {
 	if(GameState)
 	{
-		GameState->QuantityElementForGame = Spawner->SpawnAndGetQuantityElements(FGameDataTable);
+		if(DataTables[Index])
+		{
+			GameState->QuantityElementForGame = Spawner->SpawnAndGetQuantityElements(DataTables[Index]);
+		}
 	}
 }
 

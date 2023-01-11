@@ -21,16 +21,19 @@ public:
 	/** Subclass of spawner. Settings on Blueprint. */
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AGameSpawner> SpawnerClass;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<UDataTable*> DataTables;
 	
 	void RemoveFromSpawnArray(class AGameElement* GameActor) const;
 
 	/**
 	 *	Spawn game elements from data table
 	 *
-	 *	@param FGameDataTable		Data table with game elements
+	 *	@param Index		Index of element in Data Tables array
 	 */
 	UFUNCTION(BlueprintCallable)
-	void SpawnLevel(const UDataTable* FGameDataTable);
+	void SpawnLevelByIndex(const int Index);
 
 	/** Destroy all elements in a spawn array and clear all timers */
 	UFUNCTION(BlueprintCallable)
